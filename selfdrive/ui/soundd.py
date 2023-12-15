@@ -52,6 +52,8 @@ sound_list: Dict[int, Tuple[str, Optional[int], float]] = {
 
   # Other
   AudibleAlert.goat: ("goat.wav", 1, MAX_VOLUME),
+
+  AudibleAlert.speedDown: ("prompt_distracted.wav", 3, MAX_VOLUME),
 }
 
 def check_controls_timeout_alert(sm):
