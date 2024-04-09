@@ -442,9 +442,6 @@ struct CarControl {
 
       # Other
       goat @15;
-      noice @12;
-      uwu @13;
-
       speedDown @16;
     }
   }
