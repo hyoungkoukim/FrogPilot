@@ -60,7 +60,7 @@ class CarController:
     if accel > 0:
       pedaloffset = interp(car_velocity, [0., 3, 6, 30], [0.08, 0.155, 0.200, 0.265])
     else:
-      pedaloffset = interp(car_velocity, [0., 3, 6, 30], [0.10, 0.175, 0.215, 0.265])
+      pedaloffset = interp(car_velocity, [0., 3, 6, 30], [0.10, 0.155, 0.215, 0.265])
     pedal_gas = clip((pedaloffset + accel), 0.0, 1.0)
 
     return pedal_gas
