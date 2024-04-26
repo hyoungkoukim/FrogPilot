@@ -1944,6 +1944,11 @@ void AnnotatedCameraWidget::drawStatusBar(QPainter &p) {
 
   p.restore();
 }
+QRect getRect(QPainter &p, int flags, QString text) {
+  QFontMetrics fm(p.font());
+  QRect init_rect = fm.boundingRect(text);
+  return fm.boundingRect(init_rect, flags, text);
+}
 
 void AnnotatedCameraWidget::drawRoadLimitSpeed(QPainter &p) {
   p.save();
