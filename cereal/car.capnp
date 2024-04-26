@@ -438,12 +438,10 @@ struct CarControl {
       fart @10;
       firefox @11;
       nessie @12;
-      noice @13;
-      uwu @14;
 
       # Other
       goat @15;
-      noice @12;
+      noice @14;
       uwu @13;
 
       speedDown @16;
