@@ -316,7 +316,7 @@ class CarState(CarStateBase):
         ("GAS_SENSOR", 50),
       ]
 
-    if CP.carFingerprint == CAR.BOLT_CC:
+    if CP.carFingerprint in CC_ONLY_CAR:
       messages += [
         ("RegenPaddle", "EBCMRegenPaddle", 0),
       ]
