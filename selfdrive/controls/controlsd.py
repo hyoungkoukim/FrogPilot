@@ -199,6 +199,8 @@ class Controls:
     self.previous_speed_limit = SpeedLimitController.desired_speed_limit
     self.random_event_timer = 0
 
+    self.regenPressed = False
+
     ignore = self.sensor_packets + ['testJoystick']
     if SIMULATION:
       ignore += ['driverCameraState', 'managerState']
@@ -796,6 +798,11 @@ class Controls:
     """Compute conditional state transitions and execute actions on state transitions"""
 
     self.v_cruise_helper.update_v_cruise(CS, self.enabled, self.is_metric, self.FPCC.speedLimitChanged, self.frogpilot_variables)
+    if CS.regenPressed:
+      self.v_cruise_kph = update_v_cruise_regen(CS.vEgo, self.v_cruise_kph, CS.regenPressed, self.enabled)
+      self.regenPressed = True
+    else:
+      self.regenPressed = False
 
     # NDA neokii
     apply_limit_speed, road_limit_speed, left_dist, first_started, limit_log = SpeedLimiter.instance().get_max_speed(CS,
@@ -958,6 +965,7 @@ class Controls:
 
     actuators = CC.actuators
     actuators.longControlState = self.LoC.long_control_state
+    actuators.regenPaddle = self.regenPressed
 
     # Enable blinkers while lane changing
     if model_v2.meta.laneChangeState != LaneChangeState.off:

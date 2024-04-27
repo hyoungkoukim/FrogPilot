@@ -91,6 +91,10 @@ class CarState(CarStateBase):
       # https://static.nhtsa.gov/odi/tsbs/2017/MC-10137629-9999.pdf
       ret.brakePressed = ret.brake >= 8
 
+    ret.regenPressed = False
+    if self.car_fingerprint == CAR.BOLT_CC:
+      ret.regenPressed = bool(pt_cp.vl["EBCMRegenPaddle"]["RegenPaddle"])
+
     # Regen braking is braking
     if self.CP.transmissionType == TransmissionType.direct:
       ret.regenBraking = pt_cp.vl["EBCMRegenPaddle"]["RegenPaddle"] != 0
@@ -224,6 +228,8 @@ class CarState(CarStateBase):
           self.fpf.update_experimental_mode()
       self.lkas_previously_pressed = lkas_pressed
 
+
+
     return ret
 
   @staticmethod
@@ -308,6 +314,11 @@ class CarState(CarStateBase):
     if CP.enableGasInterceptor:
       messages += [
         ("GAS_SENSOR", 50),
+      ]
+
+    if CP.carFingerprint == CAR.BOLT_CC:
+      messages += [
+        ("RegenPaddle", "EBCMRegenPaddle", 0),
       ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], messages, CanBus.POWERTRAIN)

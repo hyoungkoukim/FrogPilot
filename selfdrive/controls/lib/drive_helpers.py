@@ -35,6 +35,7 @@ CRUISE_INTERVAL_SIGN = {
   ButtonType.accelCruise: +1,
   ButtonType.decelCruise: -1,
 }
+REGEN_THRESHOLD = 5
 
 
 class VCruiseHelper:
@@ -52,6 +53,15 @@ class VCruiseHelper:
   @property
   def v_cruise_initialized(self):
     return self.v_cruise_kph != V_CRUISE_UNSET
+
+  def update_v_cruise_regen(v_ego, v_cruise_kph, regen, enabled):
+    if enabled and regen:
+      if (v_cruise_kph - v_ego * CV.MS_TO_KPH) < REGEN_THRESHOLD:
+        v_cruise_kph -= REGEN_THRESHOLD - -v_cruise_kph % 5
+
+    v_cruise_kph = clip(v_cruise_kph, V_CRUISE_PADDLE_MIN, V_CRUISE_MAX)
+
+    return v_cruise_kph
 
   def update_v_cruise(self, CS, enabled, is_metric, speed_limit_changed, frogpilot_variables):
     self.v_cruise_kph_last = self.v_cruise_kph
